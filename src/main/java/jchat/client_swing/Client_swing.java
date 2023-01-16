@@ -15,6 +15,7 @@ public class Client_swing extends javax.swing.JFrame {
     String serverIp = "";
     int serverPort = 0;
     Socket mySocket;
+    String username;
 
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     BufferedReader inStream; 		//Input stream from server
@@ -68,7 +69,7 @@ public class Client_swing extends javax.swing.JFrame {
         msgTextField.setSelectedTextColor(new java.awt.Color(204, 204, 204));
         msgTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendPress(evt);
+                sendMsg(evt);
             }
         });
 
@@ -177,7 +178,7 @@ public class Client_swing extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sendPress(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendPress
+    private void sendMsg(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMsg
         try {
             String strUtente = msgTextField.getText();
             if (strUtente.equals("DISCONNECT")) {
@@ -191,7 +192,7 @@ public class Client_swing extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "You are not connected to any server.", "Not connected", JOptionPane.ERROR_MESSAGE);
             clean();
         }
-    }//GEN-LAST:event_sendPress
+    }//GEN-LAST:event_sendMsg
 
     private void connectPress(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectPress
         serverAddr();
@@ -231,7 +232,15 @@ public class Client_swing extends javax.swing.JFrame {
             serverIp = "";
             serverPort = 0;
 
+            do {                
+                username = JOptionPane.showInputDialog(rootPane, "Enter the username: ", "Username", JOptionPane.QUESTION_MESSAGE);
+                if (username.isBlank() || username.isEmpty() || username.equals("")) {
+                    JOptionPane.showMessageDialog(rootPane, "The username you entered is invalid", "Invalid username", JOptionPane.ERROR_MESSAGE);
+                }
+            } while (username.isBlank() || username.isEmpty() || username.equals(""));
+            
             serverIp = JOptionPane.showInputDialog(rootPane, "Server IP: ", "Server IP", JOptionPane.QUESTION_MESSAGE);
+            
             try {
                 serverPort = Integer.parseInt(JOptionPane.showInputDialog(rootPane, "Server Port: ", "Server Port", JOptionPane.QUESTION_MESSAGE));
             } catch (NumberFormatException e) {
@@ -249,8 +258,9 @@ public class Client_swing extends javax.swing.JFrame {
             mySocket = new Socket(serverIp, serverPort);
             outStream = new DataOutputStream(mySocket.getOutputStream());
             inStream = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
-            userLabel.setText(mySocket.getInetAddress().getCanonicalHostName() + ":");
-
+            outStream.writeBytes(username + "\n");
+            
+            userLabel.setText(username + ":");
             ipLabel.setText("Connected to: " + serverIp);
             ipLabel.setVisible(true);
 
