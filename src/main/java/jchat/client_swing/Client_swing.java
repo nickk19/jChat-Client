@@ -11,12 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 public class Client_swing extends javax.swing.JFrame {
-
+    String username;
     String serverIp = "";
     int serverPort = 0;
+    
     Socket mySocket;
-    String username;
-
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
     BufferedReader inStream; 		//Input stream from server
     DataOutputStream outStream; 	//Output stream to server
@@ -27,7 +26,7 @@ public class Client_swing extends javax.swing.JFrame {
         connect();
         receive();
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -197,6 +196,7 @@ public class Client_swing extends javax.swing.JFrame {
     private void connectPress(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectPress
         serverAddr();
         connect();
+        receive();
     }//GEN-LAST:event_connectPress
 
     private void disconnectPress(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_disconnectPress
@@ -229,15 +229,16 @@ public class Client_swing extends javax.swing.JFrame {
 
     public void serverAddr() throws HeadlessException, NumberFormatException {
         do {
+            username = "";
             serverIp = "";
             serverPort = 0;
 
-            do {                
+            do {
                 username = JOptionPane.showInputDialog(rootPane, "Enter the username: ", "Username", JOptionPane.QUESTION_MESSAGE);
-                if (username.isBlank() || username.isEmpty() || username.equals("")) {
+                if (username == null || username.isBlank() || username.isEmpty() || username.equals("")) {
                     JOptionPane.showMessageDialog(rootPane, "The username you entered is invalid", "Invalid username", JOptionPane.ERROR_MESSAGE);
                 }
-            } while (username.isBlank() || username.isEmpty() || username.equals(""));
+            } while (username == null || username.isBlank() || username.isEmpty() || username.equals(""));
             
             serverIp = JOptionPane.showInputDialog(rootPane, "Server IP: ", "Server IP", JOptionPane.QUESTION_MESSAGE);
             
@@ -260,6 +261,7 @@ public class Client_swing extends javax.swing.JFrame {
             inStream = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
             outStream.writeBytes(username + "\n");
             
+            statusLabel.setText("Ready.");
             userLabel.setText(username + ":");
             ipLabel.setText("Connected to: " + serverIp);
             ipLabel.setVisible(true);
