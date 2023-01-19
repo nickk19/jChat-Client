@@ -11,5 +11,22 @@
         <maven.compiler.target>19</maven.compiler.target>
         <exec.mainClass>jchat.client_swing.Client_swing</exec.mainClass>
     </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>jchat.client_swing.Client_swing</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>  
     <name>jChat-Client</name>
 </project>
