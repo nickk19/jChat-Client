@@ -1,5 +1,6 @@
 # jChat-Client
 A Swing client for my jChat project. The client now provides a list of connected clients on the right of the screen and has a new connection screen.
+
 I used the NetBeans IDE with its visual designer, so expect a lot of spaghetti code.
 
 **To run the precompiled JAR file you need at least the [v19](https://jdk.java.net/19/) of the JDK**
