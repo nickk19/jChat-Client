@@ -1,5 +1,5 @@
 # jChat-Client
-A Swing client for my jChat project. The client now provides a list of connected clients on the right of the screen and has a new connection screen.
+A Swing client for my jChat project. Now the connection manager got a redesign and the whole program boasts the FlatLaf Dark theme.
 
 I used the NetBeans IDE with its visual designer, so expect a lot of spaghetti code.
 
