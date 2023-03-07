@@ -1,5 +1,6 @@
 package jchat.client_swing;
 
+import com.formdev.flatlaf.FlatDarkLaf;
 import java.awt.HeadlessException;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class Client_swing extends javax.swing.JFrame {
 
@@ -21,19 +23,20 @@ public class Client_swing extends javax.swing.JFrame {
 
 	private Socket mySocket;
 	private BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-	private BufferedReader inStream; 		//Input stream from server
-	private DataOutputStream outStream; 	//Output stream to server
+	private BufferedReader inStream;
+	private DataOutputStream outStream;
 
 	public Client_swing() {
 		this.username = "";
 		this.serverIp = "";
 		this.serverPort = 0;
 
-		this.setLocationRelativeTo(null);
 		Instance = this;
 		serverAddr();
 
 		initComponents();
+		this.pack();
+		this.setLocationRelativeTo(null);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -73,6 +76,7 @@ public class Client_swing extends javax.swing.JFrame {
         userLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         msgTextField.setBackground(new java.awt.Color(51, 51, 51));
+        msgTextField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         msgTextField.setForeground(new java.awt.Color(204, 204, 204));
         msgTextField.setBorder(null);
         msgTextField.setCaretColor(new java.awt.Color(204, 204, 204));
@@ -96,12 +100,13 @@ public class Client_swing extends javax.swing.JFrame {
         msgArea.setEditable(false);
         msgArea.setBackground(new java.awt.Color(51, 51, 51));
         msgArea.setColumns(20);
-        msgArea.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        msgArea.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         msgArea.setForeground(new java.awt.Color(204, 204, 204));
         msgArea.setRows(5);
-        msgArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
+        msgArea.setBorder(javax.swing.BorderFactory.createEmptyBorder());
         msgArea.setCaretColor(new java.awt.Color(204, 204, 204));
-        msgArea.setFocusable(false);
+        msgArea.setHighlighter(null);
+        msgArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
         msgArea.setSelectedTextColor(new java.awt.Color(204, 204, 204));
         scrollPane.setViewportView(msgArea);
 
@@ -112,6 +117,7 @@ public class Client_swing extends javax.swing.JFrame {
         statusLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         connectButton.setBackground(new java.awt.Color(51, 51, 51));
+        connectButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         connectButton.setForeground(new java.awt.Color(204, 204, 204));
         connectButton.setText("Connect");
         connectButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -124,6 +130,7 @@ public class Client_swing extends javax.swing.JFrame {
         });
 
         disconnectButton.setBackground(new java.awt.Color(51, 51, 51));
+        disconnectButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         disconnectButton.setForeground(new java.awt.Color(204, 204, 204));
         disconnectButton.setText("Disconnect");
         disconnectButton.setFocusable(false);
@@ -135,13 +142,14 @@ public class Client_swing extends javax.swing.JFrame {
 
         usrArea.setBackground(new java.awt.Color(51, 51, 51));
         usrArea.setColumns(11);
-        usrArea.setFont(usrArea.getFont().deriveFont(usrArea.getFont().getSize()+5f));
+        usrArea.setFont(usrArea.getFont().deriveFont(usrArea.getFont().getSize()+4f));
         usrArea.setForeground(new java.awt.Color(204, 204, 204));
         usrArea.setRows(5);
         usrArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(2, 2, 2, 2));
         usrArea.setCaretColor(new java.awt.Color(204, 204, 204));
         usrArea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         usrArea.setFocusable(false);
+        usrArea.setMargin(new java.awt.Insets(10, 10, 10, 10));
         usrArea.setSelectedTextColor(new java.awt.Color(204, 204, 204));
         jScrollPane1.setViewportView(usrArea);
 
@@ -162,7 +170,7 @@ public class Client_swing extends javax.swing.JFrame {
                         .addComponent(disconnectButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(statusLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 714, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 700, Short.MAX_VALUE)
                         .addComponent(ipLabel)
                         .addGap(12, 12, 12))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelLayout.createSequentialGroup()
@@ -208,7 +216,8 @@ public class Client_swing extends javax.swing.JFrame {
     private void sendMsg(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMsg
 		try {
 			String strUtente = msgTextField.getText();
-			if (strUtente.equals("DISCONNECT")) {
+			if(strUtente.equals("")) {} 
+			else if (strUtente.equals("DISCONNECT")) {
 				disconnect();
 			} else {
 				outStream.writeBytes(strUtente + "\n");
@@ -234,15 +243,12 @@ public class Client_swing extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosing
 
 	public static void main(String args[]) {
+		FlatDarkLaf.setup();
+
 		try {
-			for (UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-				if ("Nimbus".equals(info.getName())) {
-					javax.swing.UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-			java.util.logging.Logger.getLogger(Client_swing.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+			UIManager.setLookAndFeel(new FlatDarkLaf());
+		} catch (UnsupportedLookAndFeelException ex) {
+			System.err.println("Failed to initialize LaF");
 		}
 
 		java.awt.EventQueue.invokeLater(() -> {
@@ -254,7 +260,6 @@ public class Client_swing extends javax.swing.JFrame {
 		username = "";
 		serverIp = "";
 		serverPort = 0;
-
 		new serverMng().setVisible(true);
 	}
 
@@ -313,7 +318,7 @@ public class Client_swing extends javax.swing.JFrame {
 
 	public void disconnect() {
 		try {
-			if (mySocket != null) {     //For some reasons the socket may also be disconnected
+			if (mySocket != null && mySocket.isConnected()) {     //For some reasons the socket may also be disconnected
 				outStream.writeBytes("DISCONNECT\n");
 				mySocket.close();
 				bufferedReader.close();
@@ -324,6 +329,7 @@ public class Client_swing extends javax.swing.JFrame {
 			clean();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(rootPane, "Error while closing the network stack.", "Network error", JOptionPane.ERROR_MESSAGE);
+			clean();
 		}
 	}
 
@@ -333,6 +339,7 @@ public class Client_swing extends javax.swing.JFrame {
 		disconnectButton.setEnabled(false);
 
 		statusLabel.setText("Disconnected");
+		userLabel.setText("");
 		msgTextField.setText("");
 		msgArea.setText("");
 		usrArea.setText("");
