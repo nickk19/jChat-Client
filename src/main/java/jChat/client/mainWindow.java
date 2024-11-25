@@ -13,23 +13,41 @@ public class mainWindow extends JFrame{
 	private JScrollPane userBoard;
 	private JLabel userLbl;
 	private JTextField msgField;
-	private JPanel mainPanel;
+	public JPanel mainPanel;
+
+	//This is bad, but can't be done otherwise
+	public static String username;
+	public static String serverAddress;
+	public static int serverPort;
+	public static mainWindow Instance;
 
 	public mainWindow(){
-		this.setContentPane(mainPanel);
-		this.setSize(1000, 600);
+		Instance = this;
+
+		//A class constructor that instantly switches scope to another class. wow...
+		newConnection();
+	}
+
+	public void initWindow(JPanel panel, int width, int height, String title) {
+		this.setContentPane(panel);
+		this.setSize(width, height);
 		this.setResizable(false);
-		this.setTitle("jChat Client v0.1");
+		this.setTitle(title);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.pack();
 		this.setLocationRelativeTo(null);
 		this.setVisible(true);
+
+		System.out.println("username: " + username);
+		System.out.println("serverAddress: " + serverAddress);
+		System.out.println("serverPort: " + serverPort);
 	}
 
 	public static void main(String[] args) {
 		setFlatLafLookAndFeel();
 		setUIFont(new Font("Inter",Font.PLAIN,20));
-		new mainWindow();
+
+		new mainWindow().setVisible(false);
 	}
 
 	public static void setFlatLafLookAndFeel() {
@@ -55,4 +73,7 @@ public class mainWindow extends JFrame{
 		}
 	}
 
+	public static void newConnection(){
+		new serverMng().setVisible(true);
+	}
 }
