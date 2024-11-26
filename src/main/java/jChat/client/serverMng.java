@@ -17,17 +17,7 @@ public class serverMng extends JFrame {
 	private JButton cancelBtn;
 
 	public serverMng() {
-		this.setContentPane(serverMngPanel);
-		this.setSize(300, 300);
-		this.setResizable(false);
-		this.setTitle("New Connection");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		this.pack();
-		this.setLocationRelativeTo(null);
-		this.setVisible(true);
-
-		//TODO: This shit doesn't work, check if you can fix it
-		//mainWindow.Instance.initWindow(serverMngPanel, 300, 300, "New Connection");
+		mainWindow.Instance.initWindow(serverMngPanel, 300, 300, "New Connection");
 
 		connectBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
@@ -37,22 +27,22 @@ public class serverMng extends JFrame {
 		cancelBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				dispose();
+				System.exit(EXIT_ON_CLOSE);
 			}
 		});
 	}
 
 	private void connectBtnAction() {
 		if (userFld.getText().isEmpty()) {
-			mainWindow.username = "anon";
+			mainWindow.setUsername("anon");
 		} else {
-			mainWindow.username = userFld.getText().trim();
+			mainWindow.setUsername(userFld.getText().trim());
 		}
 
 		if(!serverAddrFld.getText().isEmpty() || !serverPortFld.getText().isEmpty()) {
-			mainWindow.serverAddress = serverAddrFld.getText().trim();
-
+			mainWindow.setServerAddress(serverAddrFld.getText().trim());
 			try {
-				mainWindow.serverPort = Integer.parseInt(serverPortFld.getText().trim());
+				mainWindow.setServerPort(Integer.parseInt(serverPortFld.getText().trim()));
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(new Frame(),
 						"The port number must be a positive integer.",
@@ -62,14 +52,15 @@ public class serverMng extends JFrame {
 			}
 		} else {
 			JOptionPane.showMessageDialog(new Frame(),
-					"Server's address or is not valid.",
+					"Server's address or port is not valid.",
 					"Bad server data",
 					JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 
+		//Dispose serverMng and spawns mainWindow
 		this.dispose();
-		//Oblivious scope-switching call to mainWindow method
 		mainWindow.Instance.initWindow(mainWindow.Instance.mainPanel, 1000, 600, "jChat Client v0.1");
+		mainWindow.debugConnectionData();
 	}
 }
