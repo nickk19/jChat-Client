@@ -10,7 +10,7 @@ public class BaseClass {
 	private String serverAddress;
 	private int serverPort;
 
-	private ClientWindow mainWin; /*Reference used to check if mainWindow has ever been opened
+	private ClientWindow mainWin; /*Reference used to check if ClientWindow has ever been opened
 									(ie if it's first execution) */
 
 	public static void main(String[] args) {
