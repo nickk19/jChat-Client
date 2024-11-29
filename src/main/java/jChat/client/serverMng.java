@@ -2,10 +2,8 @@ package jChat.client;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class serverMng extends JFrame {
+public class serverMng extends BaseWindow {
 	private JPanel serverMngPanel;
 	private JLabel userLbl;
 	private JTextField userFld;
@@ -16,33 +14,32 @@ public class serverMng extends JFrame {
 	private JButton connectBtn;
 	private JButton cancelBtn;
 
-	public serverMng() {
-		mainWindow.Instance.initWindow(serverMngPanel, 300, 300, "New Connection");
+	private final mainClass controller;
 
-		connectBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent actionEvent) {
-				connectBtnAction();
-			}
-		});
-		cancelBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent actionEvent) {
-				dispose();
-				System.exit(EXIT_ON_CLOSE);
-			}
-		});
+	public serverMng(mainClass controller) {
+		super(300, 300, "New Connection");
+		finalizeInit(serverMngPanel);
+		this.controller = controller; /* Gets controller */
+
+		connectBtn.addActionListener(actionEvent -> connectBtnAction());
+		cancelBtn.addActionListener(actionEvent -> dispose());
 	}
 
 	private void connectBtnAction() {
+		String username;
 		if (userFld.getText().isEmpty()) {
-			mainWindow.setUsername("anon");
+			username = "anon";
+
 		} else {
-			mainWindow.setUsername(userFld.getText().trim());
+			username = userFld.getText().trim();
 		}
 
+		String serverAddress;
+		int serverPort;
 		if(!serverAddrFld.getText().isEmpty() || !serverPortFld.getText().isEmpty()) {
-			mainWindow.setServerAddress(serverAddrFld.getText().trim());
+			serverAddress = serverAddrFld.getText().trim();
 			try {
-				mainWindow.setServerPort(Integer.parseInt(serverPortFld.getText().trim()));
+				serverPort = Integer.parseInt(serverPortFld.getText().trim());
 			} catch (NumberFormatException e) {
 				JOptionPane.showMessageDialog(new Frame(),
 						"The port number must be a positive integer.",
@@ -58,9 +55,8 @@ public class serverMng extends JFrame {
 			return;
 		}
 
-		//Dispose serverMng and spawns mainWindow
-		this.dispose();
-		mainWindow.Instance.initWindow(mainWindow.Instance.mainPanel, 1000, 600, "jChat Client v0.1");
-		mainWindow.debugConnectionData();
+		/* Dispose serverMng and pass data back to mainClass */
+		dispose();
+		controller.setServerData(username, serverAddress, serverPort);
 	}
 }
