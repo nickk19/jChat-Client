@@ -2,7 +2,7 @@ package jChat.client;
 
 import javax.swing.*;
 
-public class mainWindow extends BaseWindow {
+public class ClientWindow extends BaseWindow {
 	private JButton connectBtn;
 	private JButton disconnectBtn;
 	private JLabel statusLbl;
@@ -17,9 +17,9 @@ public class mainWindow extends BaseWindow {
 	String serverAddress;
 	int serverPort;
 
-	private final mainClass controller;
+	private final BaseClass controller;
 
-	public mainWindow(mainClass controller) {
+	public ClientWindow(BaseClass controller) {
 		super(1000, 600, "jChat-Client v0.1");
 		finalizeInit(mainPanel);
 		this.controller = controller;

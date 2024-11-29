@@ -5,19 +5,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Enumeration;
 
-public class mainClass {
+public class BaseClass {
 	private String username;
 	private String serverAddress;
 	private int serverPort;
 
-	private mainWindow mainWin; /*	Reference used to check if mainWindow has ever been opened
+	private ClientWindow mainWin; /*Reference used to check if mainWindow has ever been opened
 									(ie if it's first execution) */
 
 	public static void main(String[] args) {
 		setFlatLafLookAndFeel();
 		setUIFont(new Font("Inter", Font.PLAIN, 20));
 
-		mainClass controller = new mainClass();
+		BaseClass controller = new BaseClass();
 		controller.openServerMng();
 	}
 
@@ -45,7 +45,7 @@ public class mainClass {
 	}
 
 	public void openServerMng() {
-		new serverMng(this); /* Pass the controller to serverMng */
+		new ManagerWindow(this); /* Pass the controller to ManagerWindow */
 	}
 
 	public void setServerData(String username, String serverAddress, int serverPort) {
@@ -53,11 +53,11 @@ public class mainClass {
 		this.serverAddress = serverAddress;
 		this.serverPort = serverPort;
 
-		//If mainWindow exists update it, otherwise (re)open it
+		/* If mainWindow exists update it, otherwise (re)open it */
 		if (mainWin != null) {
 			mainWin.updateServerData();
 		} else {
-			mainWin = new mainWindow(this); /* Create mainWindow and pass controller */
+			mainWin = new ClientWindow(this); /* Create mainWindow and pass controller */
 		}
 	}
 

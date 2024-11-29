@@ -11,6 +11,7 @@ public abstract class BaseWindow extends JFrame {
 		setLocationRelativeTo(null);
 	}
 
+	/* Needed because can't pass JPanel at superclass constructor, since, well, it's not initialized */
 	public void finalizeInit(JPanel panel) {
 		setContentPane(panel);
 		pack();
