@@ -10,7 +10,7 @@ public class BaseClass {
 	private String serverAddress;
 	private int serverPort;
 
-	private ClientWindow mainWin; /*Reference used to check if ClientWindow has ever been opened
+	private ClientWindow ClientWin; /*Reference used to check if ClientWindow has ever been opened
 									(ie if it's first execution) */
 
 	public static void main(String[] args) {
@@ -54,10 +54,10 @@ public class BaseClass {
 		this.serverPort = serverPort;
 
 		/* If mainWindow exists update it, otherwise (re)open it */
-		if (mainWin != null) {
-			mainWin.updateServerData();
+		if (ClientWin != null) {
+			ClientWin.updateServerData();
 		} else {
-			mainWin = new ClientWindow(this); /* Create mainWindow and pass controller */
+			ClientWin = new ClientWindow(this); /* Create mainWindow and pass controller */
 		}
 	}
 
