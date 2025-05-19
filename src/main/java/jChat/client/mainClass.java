@@ -5,7 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Enumeration;
 
-public class BaseClass {
+public class mainClass {
 	private String username;
 	private String serverAddress;
 	private int serverPort;
@@ -15,9 +15,9 @@ public class BaseClass {
 
 	public static void main(String[] args) {
 		setFlatLafLookAndFeel();
-		setUIFont(new Font("Inter", Font.PLAIN, 20));
+		setUIFont(new Font("Sans Serif", Font.PLAIN, 12));
 
-		BaseClass controller = new BaseClass();
+		mainClass controller = new mainClass();
 		controller.openServerMng();
 	}
 

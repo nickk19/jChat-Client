@@ -2,8 +2,8 @@ package jChat.client;
 
 import javax.swing.*;
 
-public abstract class BaseWindow extends JFrame {
-	public BaseWindow(int width, int height, String title) {
+public abstract class windowConstructor extends JFrame {
+	public windowConstructor(int width, int height, String title) {
 		setSize(width, height);
 		setResizable(false);
 		setTitle(title);

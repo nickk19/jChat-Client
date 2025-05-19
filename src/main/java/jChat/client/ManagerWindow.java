@@ -3,7 +3,7 @@ package jChat.client;
 import javax.swing.*;
 import java.awt.*;
 
-public class ManagerWindow extends BaseWindow {
+public class ManagerWindow extends windowConstructor {
 	private JPanel serverMngPanel;
 	private JLabel userLbl;
 	private JTextField userFld;
@@ -14,9 +14,9 @@ public class ManagerWindow extends BaseWindow {
 	private JButton connectBtn;
 	private JButton cancelBtn;
 
-	private final BaseClass controller;
+	private final mainClass controller;
 
-	public ManagerWindow(BaseClass controller) {
+	public ManagerWindow(mainClass controller) {
 		super(300, 300, "New Connection");
 		finalizeInit(serverMngPanel);
 		this.controller = controller; /* Gets controller */
@@ -55,7 +55,7 @@ public class ManagerWindow extends BaseWindow {
 			return;
 		}
 
-		/* Dispose ManagerWindow and pass data back to BaseClass */
+		/* Dispose ManagerWindow and pass data back to mainWindow */
 		dispose();
 		controller.setServerData(username, serverAddress, serverPort);
 	}
